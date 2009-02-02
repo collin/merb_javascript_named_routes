@@ -1,0 +1,51 @@
+Okay, we've got our fancy url generators in Merb: (ruby)
+
+  url(:blogs)
+  resource(@blog, :format => :xml)
+  
+That's super cool. But then I find myself in the depths of javascript land.
+
+Doing this: (javascript>
+
+  jQuery.ajax({
+    url: '/blogs/'+blog.id+'.xml'
+  });
+  
+AHH, no! Why? Why why why! Must I die a thousand deaths for this crime?
+
+No. Not anymore.
+
+For I have written a naive url writer in javascript.
+
+First we put it in our view: (haml)
+
+  %script{:src=>"/javascripts/url_writer.js"}
+  :javascript
+    Merb.compile_routes(
+      #{Merb::Router.named_routes.to_json}
+      ,#{Merb::Router.resource_routes.inject({}){|hash, rr| hash[rr.first.join(',')] = rr.last; hash}.to_json}
+    );
+      
+Oh god! How terrible. How nasty. How frail and brittle. Clearly this 
+will not stand the test of time. Oh well, tomorrows problem.
+
+For now we can do this: (javascript)
+
+  >> url(:blogs)
+  => '/blogs'
+  >> resource({'class': 'Blog', 'id': 44}, 'edit', {'format':'xml'})
+  => '/blogs/44/edit.xml
+  
+Ahah! Fantastic! As long as we include the 'class' name in our serialized
+objects we can pass them into the resource method.
+
+--- boring implementation details ---
+
+All this is namespaced behind a Merb object which will not clobber other Merb objects:
+
+  Merb = Merb || {};
+  
+However, the two fun methods are aliased to window.
+
+  window.url = Merb.url;
+  window.resource = Merb.resource;
