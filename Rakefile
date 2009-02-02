@@ -9,7 +9,7 @@ AUTHOR = "Collin Miller"
 EMAIL = "collintmiller@gmail.com"
 HOMEPAGE = "http://github.com/collin/merb_javascript_named_routes/tree/master"
 SUMMARY = "Merb Slice that provides named and resource route generators in javascript"
-GEM_VERSION = "0.0.1"
+GEM_VERSION = "0.0.2"
 
 spec = Gem::Specification.new do |s|
   s.rubyforge_project = 'merb'
