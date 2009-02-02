@@ -17,14 +17,15 @@ No. Not anymore.
 
 For I have written a naive url writer in javascript.
 
-First we put it in our view: (haml)
+First we put it in our view: (erb)
 
-  %script{:src=>"/javascripts/url_writer.js"}
-  :javascript
+  <script src="/javascripts/url_writer.js"></script>
+  <script>
     Merb.compile_routes(
-      #{Merb::Router.named_routes.to_json}
-      ,#{Merb::Router.resource_routes.inject({}){|hash, rr| hash[rr.first.join(',')] = rr.last; hash}.to_json}
+      <%= Merb::Router.named_routes.to_json %>
+      ,<%= Merb::Router.resource_routes.inject({}){|hash, rr| hash[rr.first.join(',')] = rr.last; hash}.to_json %>
     );
+  </script>
       
 Oh god! How terrible. How nasty. How frail and brittle. Clearly this 
 will not stand the test of time. Oh well, tomorrows problem.
