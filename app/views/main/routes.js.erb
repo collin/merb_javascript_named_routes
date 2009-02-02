@@ -1,0 +1,6 @@
+<%= File.read(MerbJavascriptNamedRoutes.root/'lib'/'url_writer.js')  %>
+
+Merb.compile_routes(
+  <%= @named_routes %>
+  ,<%= @resource_routes %>
+);
